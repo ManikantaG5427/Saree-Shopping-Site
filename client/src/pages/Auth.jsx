@@ -199,6 +199,19 @@ export function Auth() {
             <Button type="submit" className="w-full bg-[#721224] hover:bg-[#520815] text-[#f5eedf] text-xs uppercase tracking-wider py-3.5 rounded-xs font-semibold shadow-md mt-2" isLoading={isLoading} size="lg">
               {mode === 'login' ? 'Sign In to Your Account' : 'Create SLSH Account'}
             </Button>
+
+            {mode === 'login' && (
+              <div className="pt-2 border-t border-stone-100 flex items-center justify-between text-[11px] text-stone-500">
+                <span>Demo Admin: <code className="bg-stone-100 px-1 py-0.5 rounded text-[10px]">admin@slshweaves.com</code></span>
+                <button
+                  type="button"
+                  onClick={() => setFormData({ ...formData, email: 'admin@slshweaves.com', password: 'admin123' })}
+                  className="text-[#721224] font-semibold hover:underline"
+                >
+                  Auto-Fill
+                </button>
+              </div>
+            )}
           </form>
         </Card>
       </div>

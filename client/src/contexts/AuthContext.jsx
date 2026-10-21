@@ -7,11 +7,35 @@ const AuthContext = createContext(undefined);
 const MOCK_USERS_KEY = 'saree_web_users';
 const CURRENT_USER_KEY = 'saree_web_current_user';
 
+const DEFAULT_USERS = {
+  'admin@slshweaves.com': {
+    id: 'user_admin',
+    name: 'SLSH Administrator',
+    email: 'admin@slshweaves.com',
+    password: 'admin123',
+    role: 'admin',
+    phone: '+91 94404 74742',
+    addresses: [],
+    createdAt: '2023-01-01',
+  },
+  'demo@slshweaves.com': {
+    id: 'user_demo',
+    name: 'Priya Sharma',
+    email: 'demo@slshweaves.com',
+    password: 'password123',
+    role: 'customer',
+    phone: '+91 98765 43210',
+    addresses: [],
+    createdAt: '2024-01-01',
+  }
+};
+
 const getStoredUsers = () => {
   try {
-    return JSON.parse(localStorage.getItem(MOCK_USERS_KEY) || '{}');
+    const custom = JSON.parse(localStorage.getItem(MOCK_USERS_KEY) || '{}');
+    return { ...DEFAULT_USERS, ...custom };
   } catch {
-    return {};
+    return DEFAULT_USERS;
   }
 };
 
