@@ -33,7 +33,7 @@ services:
 
   frontend:
     build:
-      context: .
+      context: ./client
       dockerfile: Dockerfile
     container_name: saree-web-frontend
     restart: always

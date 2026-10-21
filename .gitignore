@@ -24,6 +24,7 @@ server/dist
 .env.local
 *.env
 !.env.example
+!client/.env.example
 !server/.env.example
 
 # Editor directories and files

@@ -6,36 +6,44 @@ A royal Indian heritage saree boutique and e-commerce web platform built on the 
 
 ## Architecture & Codebase Structure
 
+The project is cleanly separated into two primary folder modules: `client/` (React frontend) and `server/` (Express + MongoDB backend):
+
 ```
 Saree_Web/
-├── src/                        # React 19 Frontend (Vite + Vanilla/Tailwind CSS)
-│   ├── api/                    # MERN API Service Layer (client.js, productService.js, authService.js, etc.)
-│   ├── components/             # Reusable UI & luxury boutique layout components
-│   │   ├── layout/             # Header (luxury boutique navbar, mega menu), Footer
-│   │   ├── product/            # ProductCard, filters
-│   │   └── ui/                 # Modals, buttons, inputs, cards, badges
-│   ├── contexts/               # AuthContext, ProductContext, CartContext, LocationContext, WishlistContext, OrderContext
-│   ├── data/                   # mockData.js (catalog data & offline fallback)
-│   ├── pages/                  # Home, Products, ProductDetail, Cart, Checkout, Auth, Profile, Orders, Wishlist, Admin
-│   ├── index.css               # Global typography (Cormorant Garamond, Plus Jakarta Sans) & tokens
-│   ├── App.jsx                 # Client router & application shell
-│   └── main.jsx                # React 18+ application entry point
-├── server/                     # Node.js + Express + MongoDB (Mongoose) Backend API
+├── client/                     # Frontend Application Module (React 19 + Vite)
+│   ├── public/                 # Static assets & 20 high-res curated saree images
+│   ├── src/
+│   │   ├── api/                # API client & services (products, auth, cart, orders)
+│   │   ├── components/         # Reusable UI & layout (Header, Footer, Modals)
+│   │   ├── contexts/           # State contexts (Cart, Auth, Location, Wishlist, Order)
+│   │   ├── data/               # mockData.js catalog data with 20 luxury sarees
+│   │   ├── pages/              # Home, Products, ProductDetail, Cart, Checkout, etc.
+│   │   ├── styles/             # tokens.css design system
+│   │   ├── App.jsx & main.jsx
+│   │   └── index.css
+│   ├── Dockerfile              # Multi-stage production Nginx container
+│   ├── nginx.conf              # Production Nginx SPA routing & caching
+│   ├── package.json            # Frontend Vite dependencies
+│   ├── tailwind.config.js      # Responsive Tailwind configuration
+│   └── vite.config.js          # Vite configuration
+│
+├── server/                     # Backend Application Module (Node.js + Express + MongoDB)
 │   ├── src/
 │   │   ├── config/             # Database connection, Cloudinary, Razorpay settings
-│   │   ├── controllers/        # Product, Auth, Order, Category, Cart, Review, Banner, Coupon, Setting controllers
+│   │   ├── controllers/        # Product, Auth, Order, Category, Cart, Review controllers
 │   │   ├── middleware/         # Auth verification, rate limiting, error handling, upload
-│   │   ├── models/             # Mongoose Schemas (Product, User, Order, Category, Subcategory, etc.)
-│   │   ├── routes/             # Express API routes (/api/products, /api/auth, /api/orders, /api/cart, etc.)
+│   │   ├── models/             # Mongoose Schemas (Product, User, Order, Category, etc.)
+│   │   ├── routes/             # Express API routes (/api/products, /api/auth, etc.)
 │   │   ├── services/           # Razorpay, Nodemailer email, Cloudinary media
 │   │   ├── utils/              # AsyncHandler, AppError, JWT, Response helpers
-│   │   └── index.js            # Server entry point
+│   │   └── index.js            # Express application entry point
+│   ├── Dockerfile              # Node.js 20 production container
 │   ├── package.json            # Node.js ES Modules configuration
-│   └── .env                    # MongoDB URI, JWT secrets, Razorpay credentials
-├── Dockerfile                  # Production Nginx frontend container
-├── docker-compose.yml          # Full-stack deployment with MongoDB 7.0, Express Server, and Nginx Client
-├── nginx.conf                  # Nginx production configuration with SPA routing and API proxy
-├── package.json                # Root package configuration
+│   └── .env.example            # Backend environment variables
+│
+├── docker-compose.yml          # Full-stack orchestration (MongoDB 7.0 + Server + Client)
+├── vercel.json                 # Vercel deployment & SPA routing configuration
+├── package.json                # Root workspace orchestrator
 └── README.md
 ```
 
@@ -44,58 +52,54 @@ Saree_Web/
 ## Development & Local Execution
 
 ### 1. Run the Frontend (Client)
+From the root directory:
 ```bash
 npm run dev
+# Or
+npm run dev:client
 ```
 The React frontend starts on **http://localhost:5173/**.
 
 ### 2. Run the Backend API (Server)
+From the root directory:
 ```bash
-npm run server
-# Or
 npm run dev:server
 ```
 The Express server starts on **http://localhost:5000/** with health check at `http://localhost:5000/health`.
 
-### 3. Run Both Concurrently
+### 3. Build for Production
 ```bash
-npm run dev:client   # Terminal 1
-npm run dev:server   # Terminal 2
+npm run build
 ```
+Compiles the production React bundle into `client/dist/` in under 1 second.
 
 ---
 
-## Production Deployment
+## Deployment Guides
 
-### Option A: Docker Compose (Full Stack with MongoDB)
-The project includes a production-ready `docker-compose.yml` that orchestrates MongoDB, the Express backend, and the Nginx-served React frontend:
+### Option A: Vercel (Recommended for Frontend)
+1. Import **`ManikantaG5427/Saree-Shopping-Site`** in your Vercel Dashboard.
+2. In project settings:
+   - **Framework Preset**: Vite
+   - **Root Directory**: `./` (or `client`)
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `client/dist` (or `dist` if Root Directory is set to `client`)
+3. The included `vercel.json` automatically configures SPA rewrites for `/products`, `/cart`, etc.
 
+### Option B: Docker Compose (Full Stack with MongoDB)
 ```bash
 docker compose up -d --build
 ```
-- Frontend: Accessible on port `80` (or mapped port `5173`)
+- Frontend: Accessible on port `5173` (mapped to Nginx port 80)
 - Backend: Accessible on port `5000`
 - MongoDB: Persistent volume on `mongodb_data`
 
-### Option B: Cloud Hosting (Vercel / Netlify / Render / Railway)
-- **Frontend**: Deploy `src/` via Vite build (`npm run build`). Output directory: `dist/`.
-- **Backend**: Deploy `server/` on Node.js runtime (`npm start`). Set environment variables matching `server/.env.example`.
-
 ---
 
-## Verified Industry Benchmarks & Features
+## Key Features & Benchmark Integrations
 
-1. **Silk Mark Organisation of India (SMOI) Guarantee**:
-   Authentic Silk Mark tags, pure silk certification, and tamper-proof verification on every pure silk weave (inspired by Nalli & Tilfi).
-
-2. **1-on-1 WhatsApp Video Drape Inspection**:
-   Direct showroom drape inspection modal to verify pleats, pallu, and natural daylight zari luster before ordering (inspired by Kankatala & Saree.com).
-
-3. **Atelier Customization & Blouse Tailoring**:
-   Complimentary Fall & Pico with knotted tassels, custom Maggam/Aari embroidery blouse stitching, and royal wedding keepsake box packaging.
-
-4. **Live Indian Pincode Delivery Estimator**:
-   Real-time Indian postal code delivery calculation, Cash-on-Delivery verification, and express shipping indicator.
-
-5. **7-Day Transparent Buyer Inspection Assurance**:
-   Zero ambiguous return clauses; doorstep reverse pickup and quality exchange guarantee.
+1. **Zero Horizontal Overflow**: Guaranteed fluid alignment on all devices from 320px mobile screens to 4K displays.
+2. **Responsive Mobile Navbar**: Prominent Sign In button, interactive search drawer, real-time pincode estimator, and full-screen mobile slide drawer.
+3. **Smooth Transitions**: Refined boutique animations with subtle elevation lift and micro-zoom effects.
+4. **Silk Mark India Guarantee**: Tamper-proof verification seals on pure handloom weaves.
+5. **1-on-1 Video Drape**: Direct WhatsApp video consultation booking for inspecting weaves under natural daylight.
