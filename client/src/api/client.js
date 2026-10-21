@@ -47,6 +47,10 @@ export async function apiRequest(endpoint, options = {}) {
     const isJson = response.headers.get('content-type')?.includes('application/json');
     const data = isJson ? await response.json() : await response.text();
 
+    if (!isJson && typeof data === 'string' && (data.includes('<!DOCTYPE html>') || data.includes('<html'))) {
+      throw new ApiError('Backend API endpoint offline. Running in client mode.', 404, 'API_NOT_FOUND');
+    }
+
     if (!response.ok) {
       const errorMessage = data?.message || data?.error || `Request failed with status ${response.status}`;
       throw new ApiError(errorMessage, response.status, data?.code, data);

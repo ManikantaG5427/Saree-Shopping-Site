@@ -59,7 +59,11 @@ export function Auth() {
       }
 
       if (success) {
-        navigate(redirectTo, { replace: true });
+        if (formData.email.trim().toLowerCase() === 'admin@slshweaves.com') {
+          navigate('/admin', { replace: true });
+        } else {
+          navigate(redirectTo, { replace: true });
+        }
       } else {
         setError(mode === 'login' ? 'Invalid email or password' : 'Email already registered');
       }
