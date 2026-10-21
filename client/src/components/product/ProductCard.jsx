@@ -73,13 +73,24 @@ export function ProductCard({ product, variant = 'default' }) {
     <div className="group flex flex-col bg-white border border-stone-200 rounded-xs overflow-hidden hover:shadow-xl hover:border-stone-300 transition-all duration-300">
       {/* 1. Image Container with 3:4 aspect ratio */}
       <div className="relative aspect-[3/4] overflow-hidden bg-stone-100">
-        <Link to={`/product/${product.id}`} className="block w-full h-full">
+        <Link to={`/product/${product.id}`} className="block w-full h-full relative">
           <img
-            src={product.images[0]}
+            src={product.images?.[0] || product.image || '/images/meher_crimson_saree.jpg'}
             alt={product.name}
-            className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-106"
+            className={cn(
+              "w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-106",
+              product.images?.[1] ? "group-hover:opacity-0 transition-opacity duration-500" : ""
+            )}
             loading="lazy"
           />
+          {product.images?.[1] && (
+            <img
+              src={product.images[1]}
+              alt={`${product.name} - View angle 2`}
+              className="absolute inset-0 w-full h-full object-cover object-top opacity-0 group-hover:opacity-100 transition-opacity duration-500 group-hover:scale-106"
+              loading="lazy"
+            />
+          )}
         </Link>
 
         {/* Top Badges */}

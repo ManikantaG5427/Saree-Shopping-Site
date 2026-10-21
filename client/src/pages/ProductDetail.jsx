@@ -14,6 +14,7 @@ import {
   X
 } from 'lucide-react';
 import { getProductById, getProductsByCategory } from '../data/mockData';
+import { useProducts } from '../contexts/ProductContext';
 import { Button } from '../components/ui/Button';
 import { formatPrice, calculateDiscount, cn } from '../lib/utils';
 import { useCart } from '../contexts/CartContext';
@@ -30,12 +31,21 @@ const trustPillars = [
 
 export function ProductDetail() {
   const { id } = useParams();
-  const product = getProductById(id || '');
-  const relatedProducts = product ? getProductsByCategory(product.category).filter(p => p.id !== product.id).slice(0, 4) : [];
+  const { products: contextProducts, getProductById: getContextProductById } = useProducts();
+  const product = getContextProductById ? (getContextProductById(id || '') || getProductById(id || '')) : getProductById(id || '');
+  const relatedProducts = product 
+    ? (contextProducts?.length ? contextProducts : getProductsByCategory(product.category))
+        .filter(p => p.category === product.category && p.id !== product.id && p.isActive)
+        .slice(0, 4) 
+    : [];
   
   const { addToCart, isInCart, getCartQuantity } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
   const { location, updatePincode } = useLocationContext();
+
+  const productImages = (Array.isArray(product?.images) && product.images.length > 0)
+    ? product.images
+    : (product?.image ? [product.image] : ['/images/meher_crimson_saree.jpg']);
 
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
@@ -135,7 +145,7 @@ export function ProductDetail() {
             <div className="lg:col-span-5 space-y-4">
               <div className="relative aspect-[3/4] rounded-xs overflow-hidden bg-stone-100 border border-stone-200 shadow-md">
                 <img
-                  src={product.images[selectedImage]}
+                  src={productImages[selectedImage] || productImages[0]}
                   alt={product.name}
                   className="w-full h-full object-cover object-top transition-all duration-300"
                 />
@@ -164,21 +174,23 @@ export function ProductDetail() {
               </div>
 
               {/* Thumbnails */}
-              <div className="flex gap-2.5 overflow-x-auto pb-1">
-                {product.images.map((image, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setSelectedImage(index)}
-                    className={cn(
-                      'flex-shrink-0 w-20 h-24 rounded-xs overflow-hidden border-2 transition-all',
-                      index === selectedImage ? 'border-[#721224] ring-1 ring-[#721224]' : 'border-stone-200 hover:border-stone-400 opacity-80 hover:opacity-100'
-                    )}
-                    aria-label={`View weave angle ${index + 1}`}
-                  >
-                    <img src={image} alt="" className="w-full h-full object-cover" />
-                  </button>
-                ))}
-              </div>
+              {productImages.length > 1 && (
+                <div className="flex gap-2.5 overflow-x-auto pb-1">
+                  {productImages.map((image, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setSelectedImage(index)}
+                      className={cn(
+                        'flex-shrink-0 w-20 h-24 rounded-xs overflow-hidden border-2 transition-all',
+                        index === selectedImage ? 'border-[#721224] ring-1 ring-[#721224]' : 'border-stone-200 hover:border-stone-400 opacity-80 hover:opacity-100'
+                      )}
+                      aria-label={`View weave angle ${index + 1}`}
+                    >
+                      <img src={image} alt="" className="w-full h-full object-cover" />
+                    </button>
+                  ))}
+                </div>
+              )}
 
               {/* Live Video Drape Banner */}
               <div className="p-4 bg-[#f5eedf] border border-[#c5a059]/50 rounded-xs flex items-center justify-between gap-3 shadow-xs">
