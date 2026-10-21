@@ -15,7 +15,8 @@ import {
   ArrowRight,
   TrendingUp,
   Video,
-  Award
+  Award,
+  User
 } from 'lucide-react';
 import { cn, formatPrice } from '../../lib/utils.js';
 import { useAuth } from '../../contexts/AuthContext.jsx';
@@ -224,29 +225,30 @@ export function Header() {
         </div>
 
         {/* ===================== PRIMARY NAVBAR ===================== */}
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
-          <div className="flex items-center justify-between h-[74px] gap-4">
+        <nav className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8" aria-label="Main navigation">
+          <div className="flex items-center justify-between h-[70px] sm:h-[74px] gap-2 sm:gap-4">
             {/* Left: Mobile Menu Toggle & Brand Logo */}
-            <div className="flex items-center gap-3 sm:gap-4 flex-shrink-0">
+            <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
               <button
-                className="lg:hidden p-1.5 text-stone-700 hover:text-[#721224] transition-colors cursor-pointer"
+                className="lg:hidden p-1 text-stone-700 hover:text-[#721224] transition-colors cursor-pointer"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={isMenuOpen}
               >
-                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                {isMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
               </button>
 
               {/* Brand Logo & Wordmark */}
-              <Link to="/" className="flex items-center gap-3 group flex-shrink-0" aria-label="Sri Lakshmi Saree House Home">
-                <div className="w-10 h-10 rounded-xs bg-[#721224] text-[#f5eedf] flex items-center justify-center font-serif text-lg font-bold border border-[#c5a059]/70 shadow-xs group-hover:bg-[#520815] group-hover:border-[#c5a059] transition-all flex-shrink-0">
+              <Link to="/" className="flex items-center gap-2 sm:gap-3 group flex-shrink-0" aria-label="Sri Lakshmi Saree House Home">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xs bg-[#721224] text-[#f5eedf] flex items-center justify-center font-serif text-base sm:text-lg font-bold border border-[#c5a059]/70 shadow-xs group-hover:bg-[#520815] group-hover:border-[#c5a059] transition-all flex-shrink-0">
                   SL
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-serif text-[17px] sm:text-[19px] xl:text-[20px] font-bold tracking-[0.14em] text-[#721224] group-hover:text-[#520815] transition-colors uppercase leading-none">
-                    SRI LAKSHMI SAREE HOUSE
+                  <span className="font-serif text-[13px] sm:text-[19px] xl:text-[20px] font-bold tracking-[0.06em] sm:tracking-[0.14em] text-[#721224] group-hover:text-[#520815] transition-colors uppercase leading-none whitespace-nowrap">
+                    <span>SRI LAKSHMI</span>
+                    <span className="hidden sm:inline"> SAREE HOUSE</span>
                   </span>
-                  <span className="text-[9px] uppercase tracking-[0.22em] text-stone-500 font-semibold mt-1">
+                  <span className="text-[8px] sm:text-[9px] uppercase tracking-[0.16em] sm:tracking-[0.22em] text-stone-500 font-semibold mt-0.5 sm:mt-1 hidden md:block">
                     ESTD. 2003 · HERITAGE HANDLOOMS
                   </span>
                 </div>
@@ -393,27 +395,27 @@ export function Header() {
             </div>
 
             {/* Right: Search, Wishlist, Shopping Bag, Account (Guaranteed no overflow) */}
-            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+            <div className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
               {/* Search Trigger Icon */}
               <button
-                className="w-9 h-9 flex items-center justify-center rounded-full text-stone-700 hover:text-[#721224] hover:bg-stone-100 transition-colors cursor-pointer border border-transparent hover:border-stone-200"
+                className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-full text-stone-700 hover:text-[#721224] hover:bg-stone-100 transition-colors cursor-pointer border border-transparent hover:border-stone-200"
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
                 aria-label="Search catalog"
                 title="Search Sarees"
               >
-                <Search className="w-4.5 h-4.5" />
+                <Search className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
               </button>
 
               {/* Wishlist Icon with Floating Badge */}
               <Link
                 to="/wishlist"
-                className="relative w-9 h-9 flex items-center justify-center rounded-full text-stone-700 hover:text-[#721224] hover:bg-stone-100 transition-colors border border-transparent hover:border-stone-200"
+                className="relative w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-full text-stone-700 hover:text-[#721224] hover:bg-stone-100 transition-colors border border-transparent hover:border-stone-200"
                 aria-label={`Wishlist, ${wishlistCount} items`}
                 title="My Wishlist"
               >
-                <Heart className="w-4.5 h-4.5" />
+                <Heart className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
                 {wishlistCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-[#721224] text-white text-[10px] font-bold rounded-full flex items-center justify-center border border-white shadow-xs">
+                  <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 sm:w-4 sm:h-4 bg-[#721224] text-white text-[9px] sm:text-[10px] font-bold rounded-full flex items-center justify-center border border-white shadow-xs">
                     {wishlistCount}
                   </span>
                 )}
@@ -422,27 +424,30 @@ export function Header() {
               {/* Shopping Bag Button with Badge */}
               <Link
                 to="/cart"
-                className="flex items-center gap-1.5 px-3.5 py-1.5 bg-[#721224] hover:bg-[#520815] text-[#f5eedf] rounded-full transition-all shadow-xs hover:shadow-sm cursor-pointer flex-shrink-0"
+                className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1 sm:py-1.5 bg-[#721224] hover:bg-[#520815] text-[#f5eedf] rounded-full transition-all shadow-xs hover:shadow-sm cursor-pointer flex-shrink-0"
                 aria-label={`Shopping Bag, ${itemCount} items`}
                 title="Shopping Bag"
               >
-                <ShoppingBag className="w-4 h-4 text-[#c5a059]" />
-                <span className="text-[11px] uppercase tracking-wider font-semibold">Bag</span>
-                <span className="w-4 h-4 bg-[#c5a059] text-stone-950 text-[10px] font-bold rounded-full flex items-center justify-center">
+                <ShoppingBag className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#c5a059]" />
+                <span className="text-[10px] sm:text-[11px] uppercase tracking-wider font-semibold">Bag</span>
+                <span className="w-3.5 h-3.5 sm:w-4 sm:h-4 bg-[#c5a059] text-stone-950 text-[9px] sm:text-[10px] font-bold rounded-full flex items-center justify-center">
                   {itemCount}
                 </span>
               </Link>
 
-              {/* User Account / Sign In */}
+              {/* User Account / Sign In (Visible on all devices, with sleek mobile styling) */}
               {isLoading ? (
-                <div className="w-8 h-8 rounded-full bg-stone-200 animate-pulse hidden sm:block" />
+                <div className="w-8 h-8 rounded-full bg-stone-200 animate-pulse flex-shrink-0" />
               ) : user ? (
-                <div className="relative group/user py-2 hidden sm:block flex-shrink-0">
-                  <button className="flex items-center gap-1 p-0.5 text-stone-700 hover:text-[#721224] transition-colors cursor-pointer">
+                <div className="relative group/user py-2 flex-shrink-0">
+                  <button 
+                    className="flex items-center gap-1 p-0.5 text-stone-700 hover:text-[#721224] transition-colors cursor-pointer"
+                    aria-label={`Account for ${user.name}`}
+                  >
                     <div className="w-8 h-8 rounded-full bg-[#721224] text-white flex items-center justify-center text-xs font-bold shadow-xs border border-[#c5a059]/40">
                       {user.name.charAt(0).toUpperCase()}
                     </div>
-                    <ChevronDown className="w-3.5 h-3.5 text-stone-400 group-hover/user:rotate-180 transition-transform duration-200" />
+                    <ChevronDown className="w-3.5 h-3.5 text-stone-400 hidden sm:block group-hover/user:rotate-180 transition-transform duration-200" />
                   </button>
 
                   {/* Dropdown Menu Container */}
@@ -483,9 +488,11 @@ export function Header() {
                 <button
                   type="button"
                   onClick={() => { setAuthMode('login'); setShowAuthModal(true); }}
-                  className="hidden sm:inline-flex items-center px-4 py-1.5 rounded-full border border-[#721224] text-[#721224] hover:bg-[#721224] hover:text-[#f5eedf] transition-all text-[11px] font-semibold tracking-wider uppercase whitespace-nowrap shadow-xs cursor-pointer flex-shrink-0"
+                  className="flex items-center gap-1 px-2 sm:px-3.5 py-1 sm:py-1.5 rounded-full border border-[#721224] text-[#721224] hover:bg-[#721224] hover:text-[#f5eedf] transition-all text-[10px] sm:text-[11px] font-semibold tracking-wider uppercase whitespace-nowrap shadow-xs cursor-pointer flex-shrink-0"
+                  aria-label="Sign In"
                 >
-                  Sign In
+                  <User className="w-3.5 h-3.5 flex-shrink-0" />
+                  <span>Sign In</span>
                 </button>
               )}
             </div>
@@ -613,6 +620,42 @@ export function Header() {
           {/* ===================== MOBILE NAVIGATION DRAWER ===================== */}
           {isMenuOpen && (
             <div className="lg:hidden py-4 border-t border-stone-200 bg-white space-y-4">
+              {/* Mobile User Status / Sign In Bar */}
+              <div className="px-2">
+                {user ? (
+                  <div className="p-3 bg-stone-50 border border-stone-200 rounded-sm flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-full bg-[#721224] text-white flex items-center justify-center font-bold text-xs shadow-xs">
+                        {user.name.charAt(0).toUpperCase()}
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-stone-900 leading-tight">{user.name}</p>
+                        <p className="text-[10px] text-stone-500 leading-tight">{user.email}</p>
+                      </div>
+                    </div>
+                    <Link
+                      to="/profile"
+                      onClick={() => setIsMenuOpen(false)}
+                      className="text-[11px] font-bold text-[#721224] uppercase tracking-wider underline cursor-pointer"
+                    >
+                      Account
+                    </Link>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      setAuthMode('login');
+                      setShowAuthModal(true);
+                    }}
+                    className="w-full flex items-center justify-center gap-2 py-2.5 bg-[#721224] text-[#f5eedf] rounded-full text-xs font-bold uppercase tracking-wider shadow-xs cursor-pointer hover:bg-[#520815] transition-colors"
+                  >
+                    <User className="w-4 h-4" />
+                    <span>Sign In / Register</span>
+                  </button>
+                )}
+              </div>
+
               <form onSubmit={handleSearchSubmit} className="px-2">
                 <div className="relative">
                   <Search className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
