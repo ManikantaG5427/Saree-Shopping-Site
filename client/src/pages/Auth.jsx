@@ -55,7 +55,7 @@ export function Auth() {
           setIsLoading(false);
           return;
         }
-        success = await register(formData.name, formData.email, formData.phone, formData.password);
+        success = await register(formData.name, formData.email, formData.password, formData.phone);
       }
 
       if (success) {
